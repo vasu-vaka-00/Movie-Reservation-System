@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movie Reservation System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f2f2f2;
+}
+
+header{
+    background:#111827;
+    color:white;
+    padding:15px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+header h2{
+    color:#4CAF50;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+}
+
+.container{
+    width:90%;
+    margin:auto;
+    padding:20px;
+}
+
+h1{
+    margin:20px 0;
+}
+
+.movies{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 10px rgba(0,0,0,.2);
+}
+
+.card img{
+    width:100%;
+    height:350px;
+    object-fit:cover;
+}
+
+.card-body{
+    padding:15px;
+}
+
+.card-body h3{
+    margin-bottom:10px;
+}
+
+button{
+    background:#4CAF50;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    cursor:pointer;
+    border-radius:5px;
+    margin-top:10px;
+}
+
+button:hover{
+    background:#2e7d32;
+}
+
+#details,#reservation,#login,#signup,#admin{
+    display:none;
+    margin-top:30px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+}
+
+input,select{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+}
+
+.seats{
+    display:grid;
+    grid-template-columns:repeat(5,70px);
+    gap:10px;
+    margin-top:20px;
+}
+
+.seat{
+    background:#4CAF50;
+    color:white;
+    padding:15px;
+    text-align:center;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.selected{
+    background:orange;
+}
+
+.booked{
+    background:red;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+table th,table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+footer{
+    margin-top:40px;
+    text-align:center;
+    padding:20px;
+    background:#111827;
+    color:white;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h2>Movie Reservation</h2>
+
+<nav>
+
+<a href="#" onclick="showSection('login')">Login</a>
+
+<a href="#" onclick="showSection('signup')">Signup</a>
+
+<a href="#" onclick="showSection('admin')">Admin</a>
+
+</nav>
+
+</header>
+
+<div class="container">
+
+<h1>Now Showing</h1>
+
+<div class="movies">
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba">
+
+<div class="card-body">
+
+<h3>Avengers Endgame</h3>
+
+<p>Genre : Action</p>
+
+<p>Show Time : 6:00 PM</p>
+
+<button onclick="openMovie('Avengers Endgame')">
+
+Reserve Ticket
+
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c">
+
+<div class="card-body">
+
+<h3>Interstellar</h3>
+
+<p>Genre : Sci-Fi</p>
+
+<p>Show Time : 8:00 PM</p>
+
+<button onclick="openMovie('Interstellar')">
+
+Reserve Ticket
+
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1">
+
+<div class="card-body">
+
+<h3>Joker</h3>
+
+<p>Genre : Drama</p>
+
+<p>Show Time : 9:30 PM</p>
+
+<button onclick="openMovie('Joker')">
+
+Reserve Ticket
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="details">
+
+<h2 id="movieName"></h2>
+
+<p>Select Showtime</p>
+
+<select>
+
+<option>10:00 AM</option>
+
+<option>2:00 PM</option>
+
+<option selected>6:00 PM</option>
+
+<option>9:00 PM</option>
+
+</select>
+
+<button onclick="showReservation()">
+
+Continue
+
+</button>
+
+</div>
+
+<div id="reservation">
+
+<h2>Seat Reservation</h2>
+
+<p>Select Your Seats</p>
+
+<div class="seats" id="seatArea"></div>
+
+<button onclick="confirmBooking()">
+
+Confirm Reservation
+
+</button>
+
+</div>
+
+<div id="login">
+
+<h2>User Login</h2>
+
+<input placeholder="Email">
+
+<input type="password" placeholder="Password">
+
+<button onclick="alert('Login Successful')">
+
+Login
+
+</button>
+
+</div>
+
+<div id="signup">
+
+<h2>Create Account</h2>
+
+<input placeholder="Full Name">
+
+<input placeholder="Email">
+
+<input type="password" placeholder="Password">
+
+<button onclick="alert('Signup Successful')">
+
+Signup
+
+</button>
+
+</div>
+
+<div id="admin">
+
+<h2>Admin Dashboard</h2>
+
+<button>Add Movie</button>
+
+<button>Edit Movie</button>
+
+<button>Delete Movie</button>
+
+<h3 style="margin-top:20px;">Reservation Report</h3>
+
+<table>
+
+<tr>
+
+<th>Total Reservations</th>
+
+<th>Revenue</th>
+
+<th>Available Seats</th>
+
+</tr>
+
+<tr>
+
+<td>128</td>
+
+<td>$5400</td>
+
+<td>42</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+<footer>
+
+Movie Reservation System © 2026
+
+</footer>
+
+<script>
+
+function showSection(id){
+
+document.getElementById("login").style.display="none";
+document.getElementById("signup").style.display="none";
+document.getElementById("admin").style.display="none";
+
+document.getElementById(id).style.display="block";
+
+}
+
+function openMovie(movie){
+
+document.getElementById("details").style.display="block";
+
+document.getElementById("movieName").innerHTML=movie;
+
+window.scrollTo(0,500);
+
+}
+
+function showReservation(){
+
+document.getElementById("reservation").style.display="block";
+
+}
+
+let seatArea=document.getElementById("seatArea");
+
+for(let i=1;i<=30;i++){
+
+let seat=document.createElement("div");
+
+seat.className="seat";
+
+seat.innerHTML="S"+i;
+
+seat.onclick=function(){
+
+if(seat.classList.contains("selected")){
+
+seat.classList.remove("selected");
+
+}else{
+
+seat.classList.add("selected");
+
+}
+
+}
+
+seatArea.appendChild(seat);
+
+}
+
+function confirmBooking(){
+
+let seats=document.querySelectorAll(".selected");
+
+if(seats.length==0){
+
+alert("Please Select Seats");
+
+return;
+
+}
+
+let selected=[];
+
+seats.forEach(function(s){
+
+selected.push(s.innerHTML);
+
+s.classList.remove("selected");
+
+s.classList.add("booked");
+
+});
+
+alert("Reservation Confirmed\nSeats : "+selected.join(", "));
+
+}
+
+</script>
+
+</body>
+</html>
